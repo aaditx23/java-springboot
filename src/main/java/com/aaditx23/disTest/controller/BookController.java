@@ -25,6 +25,14 @@ public class BookController {
         return new ResponseEntity<>(savedBook, HttpStatus.CREATED);
 
     }
+    @PostMapping("/batch")
+    public ResponseEntity<List<Book>> addBooks(
+            @RequestBody List<Book> bookList
+    ){
+        List<Book> savedList = bookRepository.saveAll(bookList);
+        return new ResponseEntity<>(savedList, HttpStatus.CREATED);
+
+    }
 
     @PutMapping("/{id}")
     public ResponseEntity<Book> editBookById(
@@ -63,23 +71,28 @@ public class BookController {
         return bookRepository.findAll();
     }
 
-    @GetMapping
+    @GetMapping("/authors")
     public List<Book> getBooksByAuthor(
-            @RequestBody String authorName
+            @RequestParam String authorName
     ){
         return bookRepository.findBooksByAuthor(authorName);
     }
 
-    @GetMapping
+    @GetMapping("/listGenres")
+    public List<String> getBookGenres(){
+        return bookRepository.findBookGenres();
+    }
+
+    @GetMapping("/genres")
     public List<Book> getBooksByGenre(
-            @RequestBody String genre
+            @RequestParam String genre
     ){
         return bookRepository.findBooksByGenre(genre);
     }
 
-    @GetMapping
+    @GetMapping("/publishedYears")
     public List<Book> getBooksByPublishedYear(
-            @RequestBody int year
+            @RequestParam int year
     ){
         return bookRepository.findBooksByPublishedYear(year);
     }
